@@ -758,6 +758,10 @@ public interface InstrumentedType extends TypeDescription {
          * {@inheritDoc}
          */
         public WithFlexibleName withField(FieldDescription.Token token) {
+            Default result = checkFields(token);
+            if (result != null) {
+                return result;
+            }
             return new Default(name,
                     modifiers,
                     superClass,
@@ -782,6 +786,22 @@ public interface InstrumentedType extends TypeDescription {
                     nestMembers);
         }
 
+        private Default checkFields(FieldDescription.Token token) {
+            for (FieldDescription.Token fieldToken : fieldTokens) {
+                if (fieldToken.getName().equals(token.getName())) {
+                    if (fieldToken.getType().getTypeName().equals(token.getType().getTypeName())) {
+                        return this;
+                    } else {
+                        throw new IllegalStateException("Field " + token.getName()
+                                + " for " + this
+                                + " has conflict types: " + fieldToken.getType().getTypeName()
+                                + " and " + token.getType().getTypeName());
+                    }
+                }
+            }
+            return null;
+        }
+
         /**
          * {@inheritDoc}
          */
@@ -789,7 +809,7 @@ public interface InstrumentedType extends TypeDescription {
             Map<String, Object> auxiliaryFields = new HashMap<String, Object>(this.auxiliaryFields);
             Object previous = auxiliaryFields.put(token.getName(), value);
             if (previous != null) {
-                if (previous == value) {
+                if (previous == value || previous.equals(value)) {
                     return this;
                 } else {
                     throw new IllegalStateException("Field " + token.getName()
@@ -798,6 +818,13 @@ public interface InstrumentedType extends TypeDescription {
                             + " and not " + value);
                 }
             }
+
+            //TODO should we check fields?
+            Default result = checkFields(token);
+            if (result != null) {
+                return result;
+            }
+
             return new Default(name,
                     modifiers,
                     superClass,

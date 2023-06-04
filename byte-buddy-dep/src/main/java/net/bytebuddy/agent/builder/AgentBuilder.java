@@ -12211,19 +12211,30 @@ public interface AgentBuilder {
                     listener.onIgnored(typeDescription, classLoader, module, loaded);
                     return Transformation.NONE;
                 }
-                DynamicType.Builder<?> builder = typeStrategy.builder(typeDescription,
-                        byteBuddy,
-                        classFileLocator,
-                        nativeMethodStrategy.resolve(),
-                        classLoader,
-                        module,
-                        protectionDomain);
-                InitializationStrategy.Dispatcher dispatcher = initializationStrategy.dispatcher();
+
+                //TODO improve transform conflicts/overlaps one by one
+                DynamicType.Unloaded<?> dynamicType = null;
                 for (Transformer transformer : transformers) {
+                    InitializationStrategy.Dispatcher dispatcher = initializationStrategy.dispatcher();
+                    DynamicType.Builder<?> builder = typeStrategy.builder(typeDescription,
+                            byteBuddy,
+                            classFileLocator,
+                            nativeMethodStrategy.resolve(),
+                            classLoader,
+                            module,
+                            protectionDomain);
                     builder = transformer.transform(builder, typeDescription, classLoader, module, protectionDomain);
+                    dynamicType = dispatcher.apply(builder).make(TypeResolutionStrategy.Disabled.INSTANCE, typePool);
+                    dispatcher.register(dynamicType, classLoader, protectionDomain, injectionStrategy);
+                    //TODO improve code
+                    classFileLocator = new ClassFileLocator.Compound(classFileBufferStrategy.resolve(name,
+                            dynamicType.getBytes(),
+                            classLoader,
+                            module,
+                            protectionDomain), this.classFileLocator, locationStrategy.classFileLocator(classLoader, module));
+                    typePool = classFileBufferStrategy.typePool(poolStrategy, classFileLocator, classLoader, name);
+                    typeDescription = descriptionStrategy.apply(name, classBeingRedefined, typePool, circularityLock, classLoader, module);
                 }
-                DynamicType.Unloaded<?> dynamicType = dispatcher.apply(builder).make(TypeResolutionStrategy.Disabled.INSTANCE, typePool);
-                dispatcher.register(dynamicType, classLoader, protectionDomain, injectionStrategy);
                 listener.onTransformation(typeDescription, classLoader, module, loaded, dynamicType);
                 return dynamicType.getBytes();
             }
