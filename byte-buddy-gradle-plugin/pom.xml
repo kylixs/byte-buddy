@@ -64,14 +64,14 @@
                 </configuration>
             </plugin>
             <!-- Gradle is also responsible for creating javadoc such that this task is skipped here. -->
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-javadoc-plugin</artifactId>
-                <version>${version.plugin.javadoc}</version>
-                <configuration>
-                    <skip>true</skip>
-                </configuration>
-            </plugin>
+<!--            <plugin>-->
+<!--                <groupId>org.apache.maven.plugins</groupId>-->
+<!--                <artifactId>maven-javadoc-plugin</artifactId>-->
+<!--                <version>${version.plugin.javadoc}</version>-->
+<!--                <configuration>-->
+<!--                    <skip>true</skip>-->
+<!--                </configuration>-->
+<!--            </plugin>-->
             <!-- Tie Maven executions into the Gradle life-cycle. -->
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>

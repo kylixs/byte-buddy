@@ -195,17 +195,17 @@
         </plugins>
         <pluginManagement>
             <plugins>
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-javadoc-plugin</artifactId>
-                    <version>${version.plugin.javadoc}</version>
-                    <configuration>
-                        <includeDependencySources>true</includeDependencySources>
-                        <dependencySourceIncludes>
-                            <dependencySourceInclude>${project.groupId}:byte-buddy-dep</dependencySourceInclude>
-                        </dependencySourceIncludes>
-                    </configuration>
-                </plugin>
+<!--                <plugin>-->
+<!--                    <groupId>org.apache.maven.plugins</groupId>-->
+<!--                    <artifactId>maven-javadoc-plugin</artifactId>-->
+<!--                    <version>${version.plugin.javadoc}</version>-->
+<!--                    <configuration>-->
+<!--                        <includeDependencySources>true</includeDependencySources>-->
+<!--                        <dependencySourceIncludes>-->
+<!--                            <dependencySourceInclude>${project.groupId}:byte-buddy-dep</dependencySourceInclude>-->
+<!--                        </dependencySourceIncludes>-->
+<!--                    </configuration>-->
+<!--                </plugin>-->
             </plugins>
         </pluginManagement>
     </build>

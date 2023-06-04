@@ -98,28 +98,28 @@
         </plugins>
         <pluginManagement>
             <plugins>
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-javadoc-plugin</artifactId>
-                    <version>${version.plugin.javadoc}</version>
-                    <configuration>
-                        <offlineLinks>
-                            <link>
-                                <url>https://javadoc.io/doc/net.bytebuddy/byte-buddy/${project.version}</url>
-                                <location>${project.basedir}/../byte-buddy/target/apidocs</location>
-                            </link>
-                            <!-- Use previously downloaded 'package-list' file as substitute for published 'element-list' file. -->
-                            <link>
-                                <url>https://javadoc.io/doc/org.openjdk.jmh/jmh-core/${version.jmh}</url>
-                                <location>${project.basedir}/target/javadoc-lists/jmh-core-${version.jmh}</location>
-                            </link>
-                        </offlineLinks>
-                        <excludePackageNames>
-                            net.bytebuddy.benchmark.generated,
-                            net.bytebuddy.benchmark.jmh_generated
-                        </excludePackageNames>
-                    </configuration>
-                </plugin>
+<!--                <plugin>-->
+<!--                    <groupId>org.apache.maven.plugins</groupId>-->
+<!--                    <artifactId>maven-javadoc-plugin</artifactId>-->
+<!--                    <version>${version.plugin.javadoc}</version>-->
+<!--                    <configuration>-->
+<!--                        <offlineLinks>-->
+<!--                            <link>-->
+<!--                                <url>https://javadoc.io/doc/net.bytebuddy/byte-buddy/${project.version}</url>-->
+<!--                                <location>${project.basedir}/../byte-buddy/target/apidocs</location>-->
+<!--                            </link>-->
+<!--                            &lt;!&ndash; Use previously downloaded 'package-list' file as substitute for published 'element-list' file. &ndash;&gt;-->
+<!--                            <link>-->
+<!--                                <url>https://javadoc.io/doc/org.openjdk.jmh/jmh-core/${version.jmh}</url>-->
+<!--                                <location>${project.basedir}/target/javadoc-lists/jmh-core-${version.jmh}</location>-->
+<!--                            </link>-->
+<!--                        </offlineLinks>-->
+<!--                        <excludePackageNames>-->
+<!--                            net.bytebuddy.benchmark.generated,-->
+<!--                            net.bytebuddy.benchmark.jmh_generated-->
+<!--                        </excludePackageNames>-->
+<!--                    </configuration>-->
+<!--                </plugin>-->
             </plugins>
         </pluginManagement>
     </build>
@@ -138,20 +138,20 @@
                         <artifactId>maven-antrun-plugin</artifactId>
                         <version>${version.plugin.antrun}</version>
                         <executions>
-                            <execution>
-                                <id>download-javadoc-lists</id>
-                                <phase>process-resources</phase>
-                                <goals>
-                                    <goal>run</goal>
-                                </goals>
-                                <configuration>
-                                    <skip>${javadoc.download.skip}</skip>
-                                    <target>
-                                        <mkdir dir="${project.basedir}/target/javadoc-lists/jmh-core-${version.jmh}" />
-                                        <get src="https://javadoc.io/doc/org.openjdk.jmh/jmh-core/${version.jmh}/element-list" dest="${project.basedir}/target/javadoc-lists/jmh-core-${version.jmh}/package-list" skipexisting="true" />
-                                    </target>
-                                </configuration>
-                            </execution>
+<!--                            <execution>-->
+<!--                                <id>download-javadoc-lists</id>-->
+<!--                                <phase>process-resources</phase>-->
+<!--                                <goals>-->
+<!--                                    <goal>run</goal>-->
+<!--                                </goals>-->
+<!--                                <configuration>-->
+<!--                                    <skip>${javadoc.download.skip}</skip>-->
+<!--                                    <target>-->
+<!--                                        <mkdir dir="${project.basedir}/target/javadoc-lists/jmh-core-${version.jmh}" />-->
+<!--                                        <get src="https://javadoc.io/doc/org.openjdk.jmh/jmh-core/${version.jmh}/element-list" dest="${project.basedir}/target/javadoc-lists/jmh-core-${version.jmh}/package-list" skipexisting="true" />-->
+<!--                                    </target>-->
+<!--                                </configuration>-->
+<!--                            </execution>-->
                         </executions>
                     </plugin>
                     <!-- Shade the benchmark artifact. -->
