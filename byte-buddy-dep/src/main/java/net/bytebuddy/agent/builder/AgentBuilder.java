@@ -12223,8 +12223,12 @@ public interface AgentBuilder {
                             classLoader,
                             module,
                             protectionDomain);
-                    builder = transformer.transform(builder, typeDescription, classLoader, module, protectionDomain);
-                    dynamicType = dispatcher.apply(builder).make(TypeResolutionStrategy.Disabled.INSTANCE, typePool);
+
+                    DynamicType.Builder<?> newBuilder = transformer.transform(builder, typeDescription, classLoader, module, protectionDomain);
+                    if (newBuilder == builder){
+                        continue;
+                    }
+                    dynamicType = dispatcher.apply(newBuilder).make(TypeResolutionStrategy.Disabled.INSTANCE, typePool);
                     dispatcher.register(dynamicType, classLoader, protectionDomain, injectionStrategy);
                     //TODO improve code
                     classFileLocator = new ClassFileLocator.Compound(classFileBufferStrategy.resolve(name,
